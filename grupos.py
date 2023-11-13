@@ -116,3 +116,7 @@ def Transporte():
         st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones {mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_trans')
 def Galpego():
     st.warning("En mantenimiento")
+def Ferregal():
+    st.warning("En mantenimiento")
+def Global21():
+    st.warning("En mantenimiento")
