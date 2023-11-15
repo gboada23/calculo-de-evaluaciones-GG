@@ -115,7 +115,23 @@ def Transporte():
     else:
         st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones {mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_trans')
 def Galpego():
-    st.warning("En mantenimiento")
+    st.image(r'logos/GALPEGO.png',width=300)
+    centrar_titulos("GESTION DE EVALUACIONES GALPEGO")
+    centrar_titulos("")
+    st.write(" ")
+    st.write(" ")
+    st.write(" ")
+    mes, mes_letras= meses_del_año()
+    df = transporte(mes)
+    st.write(df)
+    with pd.ExcelWriter('evaluaciones.xlsx') as writer:
+        df.to_excel(writer, index=False)
+    with open('evaluaciones.xlsx', 'rb') as f:
+        bytes_data = f.read()
+    if df.empty == True:
+        st.sidebar.write("No hay informacion para descargar")
+    else:
+        st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones {mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_GAL')
 def Ferregal():
     st.warning("En mantenimiento")
 def Global21():
