@@ -122,7 +122,7 @@ def Galpego():
     st.write(" ")
     st.write(" ")
     mes, mes_letras= meses_del_año()
-    df = transporte(mes)
+    df = galpego(mes)
     st.write(df)
     with pd.ExcelWriter('evaluaciones.xlsx') as writer:
         df.to_excel(writer, index=False)
