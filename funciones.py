@@ -90,7 +90,7 @@ def transporte(mes):
     new_df['DESEMPEÑO DEL MES'] = new_df['DESEMPEÑO DEL MES'].apply(lambda x: f'{x * 100}'.replace('.', ',') + '%')
     return new_df
 
-def galprgo(mes):
+def galpego(mes):
     tabla = gc.open_by_key(ID).worksheet('EVA GALPEGO').get_all_records()
     BD = gc.open_by_key(ID).worksheet('GALPEGO').get_all_records()
     df = pd.DataFrame(tabla).copy()

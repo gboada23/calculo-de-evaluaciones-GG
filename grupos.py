@@ -1,6 +1,6 @@
 import streamlit as st
 from PIL import Image
-from funciones import serviplus, dapreca, inversiones, transporte
+from funciones import serviplus, dapreca, inversiones, transporte, galpego
 import pandas as pd
 
 def centrar_titulos(titulo):
