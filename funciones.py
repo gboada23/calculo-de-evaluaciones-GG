@@ -77,11 +77,11 @@ def transporte(mes):
     df["FECHA"] = pd.to_datetime(df["FECHA"], format = "%d/%m/%Y")
     df["MES"] = df['FECHA'].dt.month
     df = df[df['MES'] == mes]
-    numericas = ['TRABAJO EN EQUIPO','DESENVOLVIMIENTO EN EL AREA DE TRABAJO','CUMPLIMIENTO DEL DESPACHO']
+    numericas = ['TRABAJO EN EQUIPO','DESENVOLVIMIENTO EN EL AREA DE TRABAJO','CUMPLIMIENTO DEL DESPACHO','CUMPLIMIENTO DE HORARIO','PRESENCIA EN SU PUESTO DE TRABAJO']
     df = df.groupby("PERSONAL").mean(numeric_only=True)[numericas].reset_index()
     for columna in numericas:
         df[columna] = round(df[columna]/4,2)
-    df["DESEMPEÑO DEL MES"] = round((df['TRABAJO EN EQUIPO'] + df['DESENVOLVIMIENTO EN EL AREA DE TRABAJO'] +df['CUMPLIMIENTO DEL DESPACHO'])/3,2)
+    df["DESEMPEÑO DEL MES"] = round((df['TRABAJO EN EQUIPO'] + df['DESENVOLVIMIENTO EN EL AREA DE TRABAJO'] +df['CUMPLIMIENTO DEL DESPACHO']) +df['CUMPLIMIENTO DE HORARIO']+df['PRESENCIA EN SU PUESTO DE TRABAJO']/5,2)
     df.drop(columns = numericas, inplace = True)
     df2 = df2
     df2 = df2[['NOMBRE', 'CEDULA','CARGO']]
