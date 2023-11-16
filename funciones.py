@@ -83,7 +83,6 @@ def transporte(mes):
         df[columna] = round(df[columna]/4,2)
     df["DESEMPEÑO DEL MES"] = round((df['TRABAJO EN EQUIPO'] + df['DESENVOLVIMIENTO EN EL AREA DE TRABAJO'] +df['CUMPLIMIENTO DEL DESPACHO']) +df['CUMPLIMIENTO DE HORARIO']+df['PRESENCIA EN SU PUESTO DE TRABAJO']/5,2)
     df.drop(columns = numericas, inplace = True)
-    df2 = df2
     df2 = df2[['NOMBRE', 'CEDULA','CARGO']]
     new_df = pd.merge(df, df2, left_on = 'PERSONAL',right_on='NOMBRE', how= 'left')
     new_df = new_df[['PERSONAL',  'CEDULA',  'CARGO','DESEMPEÑO DEL MES']]
