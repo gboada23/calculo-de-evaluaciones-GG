@@ -81,7 +81,7 @@ def transporte(mes):
     df = df.groupby("PERSONAL").mean(numeric_only=True)[numericas].reset_index()
     for columna in numericas:
         df[columna] = round(df[columna]/4,2)
-    df["DESEMPEÑO DEL MES"] = round((df['TRABAJO EN EQUIPO'] + df['DESENVOLVIMIENTO EN EL AREA DE TRABAJO'] +df['CUMPLIMIENTO DEL DESPACHO']) +df['CUMPLIMIENTO DE HORARIO']+df['PRESENCIA EN SU PUESTO DE TRABAJO']/5,2)
+    df["DESEMPEÑO DEL MES"] = round((df['TRABAJO EN EQUIPO'] + df['DESENVOLVIMIENTO EN EL AREA DE TRABAJO'] + df['CUMPLIMIENTO DEL DESPACHO'] + df['CUMPLIMIENTO DE HORARIO']+ df['PRESENCIA EN SU PUESTO DE TRABAJO'])/5,2)
     df.drop(columns = numericas, inplace = True)
     df2 = df2[['NOMBRE', 'CEDULA','CARGO']]
     new_df = pd.merge(df, df2, left_on = 'PERSONAL',right_on='NOMBRE', how= 'left')
@@ -108,3 +108,5 @@ def galpego(mes):
     new_df = new_df[['PERSONAL',  'CEDULA',  'CARGO','DESEMPEÑO DEL MES']]
     new_df['DESEMPEÑO DEL MES'] = new_df['DESEMPEÑO DEL MES'].apply(lambda x: f'{x * 100}'.replace('.', ',') + '%')
     return new_df
+
+print(transporte(11))
