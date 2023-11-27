@@ -56,7 +56,7 @@ def inversiones(mes):
     df["FECHA"] = pd.to_datetime(df["FECHA"], format = "%d/%m/%Y")
     df["MES"] = df['FECHA'].dt.month
     df = df[df['MES'] == mes]
-    numericas = ['CUMPLIENTO DE HORARIO','DISCRECION POLITICAS INTERNAS','CUMPLIMIENTO DE ACTIVIDADES','PRESENCIALIDAD EN SU PUESTO']
+    numericas = ['CUMPLIENTO DE HORARIO','DISCRECION POLITICAS INTERNAS','CUMPLIMIENTO DE ACTIVIDADES ','PRESENCIALIDAD EN SU PUESTO']
     df = df.groupby("PERSONAL").mean(numeric_only=True)[numericas].reset_index()
     for columna in numericas:
         df[columna] = round(df[columna]/4,2)
