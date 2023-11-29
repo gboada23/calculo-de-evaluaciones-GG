@@ -59,7 +59,7 @@ def Serviplus():
     if df.empty == True:
         st.sidebar.write("No hay informacion para descargar")
     else:
-        st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones {mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_serv')
+        st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones serviplus {mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_serv')
 def Dapreca():
     st.image(r'logos/DAPRECA.png',width=150)
     centrar_titulos("GESTION DE EVALUACIONES DAPRECA")
@@ -77,7 +77,7 @@ def Dapreca():
     if df.empty == True:
         st.sidebar.write("No hay informacion para descargar")
     else:
-        st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones {mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_dapreca')
+        st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones dapreca {mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_dapreca')
 def Inversiones():
     st.image(r'logos/INVERSIONES GHALMACA.png',width=300)
     centrar_titulos("GESTION DE EVALUACIONES INVERSIONES GHALMACA")
@@ -95,7 +95,7 @@ def Inversiones():
     if df.empty == True:
         st.sidebar.write("No hay informacion para descargar")
     else:
-        st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones {mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_inv')
+        st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones inversiones {mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_inv')
 def Transporte():
     st.image(r'logos/GHALMACA TRANSPORTE.png',width=300)
     centrar_titulos("GESTION DE EVALUACIONES INVERSIONES GHALMACA")
@@ -113,7 +113,7 @@ def Transporte():
     if df.empty == True:
         st.sidebar.write("No hay informacion para descargar")
     else:
-        st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones {mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_trans')
+        st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones multiservicios {mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_trans')
 def Galpego():
     st.image(r'logos/GALPEGO.png',width=300)
     centrar_titulos("GESTION DE EVALUACIONES GALPEGO")
@@ -131,7 +131,7 @@ def Galpego():
     if df.empty == True:
         st.sidebar.write("No hay informacion para descargar")
     else:
-        st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones {mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_GAL')
+        st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones galpego {mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_GAL')
 def Ferregal():
     st.image(r'logos/FERREGAL.png',width=300)
     centrar_titulos("GESTION DE EVALUACIONES FERREGAL")
@@ -149,6 +149,6 @@ def Ferregal():
     if df.empty == True:
         st.sidebar.write("No hay informacion para descargar")
     else:
-        st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones {mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_FER')
+        st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones ferregal{mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_FER')
 def Global21():
     st.warning("En mantenimiento")
