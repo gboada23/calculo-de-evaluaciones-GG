@@ -1,6 +1,6 @@
 import streamlit as st
 from PIL import Image
-from funciones import serviplus, dapreca, inversiones, transporte, galpego
+from funciones import serviplus, dapreca, inversiones, transporte, galpego, ferregal
 import pandas as pd
 
 def centrar_titulos(titulo):
@@ -133,6 +133,22 @@ def Galpego():
     else:
         st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones {mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_GAL')
 def Ferregal():
-    st.warning("En mantenimiento")
+    st.image(r'logos/FERREGAL.png',width=300)
+    centrar_titulos("GESTION DE EVALUACIONES FERREGAL")
+    centrar_titulos("")
+    st.write(" ")
+    st.write(" ")
+    st.write(" ")
+    mes, mes_letras= meses_del_año()
+    df = ferregal(mes)
+    st.write(df)
+    with pd.ExcelWriter('evaluaciones.xlsx') as writer:
+        df.to_excel(writer, index=False)
+    with open('evaluaciones.xlsx', 'rb') as f:
+        bytes_data = f.read()
+    if df.empty == True:
+        st.sidebar.write("No hay informacion para descargar")
+    else:
+        st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones {mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_FER')
 def Global21():
     st.warning("En mantenimiento")
