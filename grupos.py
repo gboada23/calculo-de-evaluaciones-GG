@@ -171,4 +171,4 @@ def Admin():
         st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones ferregal{mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_adm')
 
 def Global21():
-    st.warning("En mantenimiento")
+    st.warning("En Mantenimiento")
