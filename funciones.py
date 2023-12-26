@@ -132,4 +132,22 @@ def galpego(mes):
     new_df['DESEMPEÑO DEL MES'] = new_df['DESEMPEÑO DEL MES'].apply(lambda x: f'{x * 100}'.replace('.', ',') + '%')
     return new_df
 
-print(transporte(11))
+def admin(mes):
+    tabla = gc.open_by_key(ID).worksheet('EVA ADMIN').get_all_records()
+    BD = gc.open_by_key(ID).worksheet('ADMIN').get_all_records()
+    df = pd.DataFrame(tabla).copy()
+    df2 = pd.DataFrame(BD).copy()
+    df["FECHA"] = pd.to_datetime(df["FECHA"], format = "%d/%m/%Y")
+    df["MES"] = df['FECHA'].dt.month
+    df = df[df['MES'] == mes]
+    numericas = ['CUMPLIENTO DE HORARIO','TRABAJO EN EQUIPO','CLIMA ORGANIZACIONAL','CUMPLIMIENTO DE ACTIVIDADES ']
+    df = df.groupby("PERSONAL").mean(numeric_only=True)[numericas].reset_index()
+    for columna in numericas:
+        df[columna] = round(df[columna]/4,2)
+    df["DESEMPEÑO DEL MES"] = round((df['CUMPLIENTO DE HORARIO'] + df['TRABAJO EN EQUIPO'] +df['CLIMA ORGANIZACIONAL']+df['CUMPLIMIENTO DE ACTIVIDADES '])/4,2)
+    df.drop(columns = numericas, inplace = True)
+    df2 = df2[['NOMBRE', 'CEDULA','CARGO']]
+    new_df = pd.merge(df, df2, left_on = 'PERSONAL',right_on='NOMBRE', how= 'left')
+    new_df = new_df[['PERSONAL',  'CEDULA',  'CARGO','DESEMPEÑO DEL MES']]
+    new_df['DESEMPEÑO DEL MES'] = new_df['DESEMPEÑO DEL MES'].apply(lambda x: f'{x * 100}'.replace('.', ',') + '%')
+    return new_df
