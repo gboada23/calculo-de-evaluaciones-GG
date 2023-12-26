@@ -151,8 +151,7 @@ def Ferregal():
     else:
         st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones ferregal{mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_FER')
 
-def Admin():
-    st.image(r'logos/Admin-contab.jpg',width=300)
+"""def Admin():
     centrar_titulos("GESTION DE EVALUACIONES CONTABILIDAD Y ADMINISTRACION")
     centrar_titulos("")
     st.write(" ")
@@ -168,7 +167,7 @@ def Admin():
     if df.empty == True:
         st.sidebar.write("No hay informacion para descargar")
     else:
-        st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones administracion{mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_adm')
+        st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones administracion{mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_adm')"""
 
 def Global21():
     st.warning("En Mantenimiento")

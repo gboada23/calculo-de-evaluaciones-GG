@@ -1,6 +1,6 @@
 import streamlit as st
 from PIL import Image
-from grupos import home, Serviplus, Dapreca, Inversiones, Transporte, Galpego, Ferregal, Global21, Admin
+from grupos import home, Serviplus, Dapreca, Inversiones, Transporte, Galpego, Ferregal, Global21
 import pandas as pd
 
 st.set_page_config(
@@ -28,8 +28,8 @@ def main():
         Galpego()
     elif pagina == "Ferregal":
         Ferregal()
-    elif pagina == "Administracion":
-        Admin()
+    #elif pagina == "Administracion":
+     #   Admin()
     else:
         Global21()
 if __name__ == "__main__":
