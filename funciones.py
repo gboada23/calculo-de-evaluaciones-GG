@@ -132,7 +132,7 @@ def galpego(mes):
     new_df['DESEMPEÑO DEL MES'] = new_df['DESEMPEÑO DEL MES'].apply(lambda x: f'{x * 100}'.replace('.', ',') + '%')
     return new_df
 
-def admin(mes):
+def administracion(mes):
     tabla = gc.open_by_key(ID).worksheet('EVA ADMIN').get_all_records()
     BD = gc.open_by_key(ID).worksheet('ADMIN').get_all_records()
     df = pd.DataFrame(tabla).copy()
@@ -151,3 +151,4 @@ def admin(mes):
     new_df = new_df[['PERSONAL',  'CEDULA',  'CARGO','DESEMPEÑO DEL MES']]
     new_df['DESEMPEÑO DEL MES'] = new_df['DESEMPEÑO DEL MES'].apply(lambda x: f'{x * 100}'.replace('.', ',') + '%')
     return new_df
+
