@@ -68,7 +68,7 @@ def Admin():
         enviaremail(df,mes_letras)  # Llama a la función para enviar correos
 
 def enviaremail(df, mes):
-    for index, row in df.iterrows():
+    for _, row in df.iterrows():
         nombre = row['PERSONAL'].title()
         correo = row['CORREO']
         cumplimiento_horario = row['cumplimiento_horario']
@@ -78,9 +78,9 @@ def enviaremail(df, mes):
         resultado_final = row['Resultado final']
         supervisor = row['SUPERVISOR INMEDIATO'].title()
 
-        # Crear el mensaje de correo
+        # Creamos el mensaje de correo
         mensaje = MIMEMultipart()
-        mensaje['From'] = 'gustavoserviplus@gmail.com'
+        mensaje['From'] = secrets['CORREO']
         mensaje['To'] = correo
         mensaje['Subject'] = f'Evaluación del Mes de {mes} para {nombre}'
 
@@ -107,12 +107,13 @@ def enviaremail(df, mes):
 
         # Adjuntar el cuerpo HTML al mensaje
         mensaje.attach(MIMEText(cuerpo_html, 'html'))
-        # Enviar el correo
+            # Enviar el correo
         try:
-            with smtplib.SMTP('smtp.gmail.com', 587) as servidor:  # Reemplaza con tu servidor SMTP
+            with smtplib.SMTP('smtp.gmail.com', 587) as servidor: 
                 servidor.starttls()
-                servidor.login('gustavoserviplus@gmail.com', secrets['CONTRA'])  # Reemplaza con tu correo y contraseña
-                servidor.sendmail('gustavoserviplus@gmail.com', correo, mensaje.as_string())    
+                #loggin
+                servidor.login(secrets['CORREO'], secrets['CONTRA'])
+                servidor.sendmail(secrets['CORREO'], correo, mensaje.as_string())    
         except Exception as e:
             st.error(f'Error al enviar correo a {nombre} ({correo}): {e}')
     
