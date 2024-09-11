@@ -69,14 +69,14 @@ def Admin():
 
 def enviaremail(df, mes):
     for index, row in df.iterrows():
-        nombre = row['PERSONAL']
+        nombre = row['PERSONAL'].title()
         correo = row['CORREO']
         cumplimiento_horario = row['cumplimiento_horario']
         discrecion_politicas = row['discrecion_politicas']
         clima_organizacional = row['clima_organizacional']
         cumplimiento_actividades = row['cumplimiento_actividades']
         resultado_final = row['Resultado final']
-        supervisor = row['SUPERVISOR INMEDIATO']
+        supervisor = row['SUPERVISOR INMEDIATO'].title()
 
         # Crear el mensaje de correo
         mensaje = MIMEMultipart()
@@ -86,23 +86,25 @@ def enviaremail(df, mes):
 
         # Formato del cuerpo del correo en HTML
         cuerpo_html = f"""
-        <html>
-            <body>
-                <p>Hola <strong>{nombre}</strong>,</p>
-                <p>Aquí está tu evaluación de desempeñp del mes de {mes}:</p>
-                <ul>
-                    <li><strong>Cumplimiento de Horario:</strong> {cumplimiento_horario}</li>
-                    <li><strong>Discreción Políticas Internas:</strong> {discrecion_politicas}</li>
-                    <li><strong>Clima Organizacional:</strong> {clima_organizacional}</li>
-                    <li><strong>Cumplimiento de Actividades:</strong> {cumplimiento_actividades}</li>
-                </ul>
-                <p><strong>Resultado Final:</strong> {resultado_final}</p>
-                <p>Si tienes alguna duda o comentario, no dudes en comunicarte con tu supervisor inmediato quien es el encargado de evaluar tu desempeño: <strong>{supervisor}</strong>.</p>
-                <p>Saludos,<br>
-                Gustavo Boada Coord de Tecnología</p>
-            </body>
-        </html>
-        """
+            <html>
+                <body>
+                    <p>Hola <strong>{nombre}</strong>,</p>
+                    <p>Aquí está tu evaluación de desempeño del mes de {mes}:</p>
+                    <ul>
+                        <li><strong>Cumplimiento de Horario:</strong> {cumplimiento_horario}</li>
+                        <li><strong>Discreción en Políticas Internas:</strong> {discrecion_politicas}</li>
+                        <li><strong>Clima Organizacional:</strong> {clima_organizacional}</li>
+                        <li><strong>Cumplimiento de Actividades:</strong> {cumplimiento_actividades}</li>
+                    </ul>
+                    <p><strong>Resultado Final:</strong> {resultado_final}</p>
+                    <p><strong>NOTA:</strong> No responda a este correo electrónico, es un correo automatizado.</p>
+                    <p>Si tienes alguna duda o comentario, no dudes en comunicarte con tu supervisor inmediato, <strong>{supervisor}</strong>, quien es el encargado de evaluar tu desempeño.</p>
+                    <p>Saludos,<br>
+                    Atentamente, <strong>Gustavo Boada, Coordinador de Tecnología</strong></p>
+                </body>
+            </html>
+            """
+
         # Adjuntar el cuerpo HTML al mensaje
         mensaje.attach(MIMEText(cuerpo_html, 'html'))
         # Enviar el correo
