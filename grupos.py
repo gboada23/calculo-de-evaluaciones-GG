@@ -100,7 +100,7 @@ def enviaremail(df, mes):
                     <p><strong>NOTA:</strong> No responda a este correo electrónico, es un correo automatizado.</p>
                     <p>Si tienes alguna duda o comentario, no dudes en comunicarte con tu supervisor inmediato, <strong>{supervisor}</strong>, quien es el encargado de evaluar tu desempeño.</p>
                     <p>Saludos,<br>
-                    Atentamente, <strong>Gustavo Boada, Coordinador de Tecnología</strong></p>
+                    Atentamente, <strong>Gustavo Boada Coordinador de Tecnología</strong></p>
                 </body>
             </html>
             """
