@@ -1,6 +1,6 @@
 import streamlit as st
 from PIL import Image
-from grupos import home, Serviplus, Dapreca, Inversiones, Transporte, Galpego, Ferregal, Global21, Admin
+from grupos import home, Admin
 import pandas as pd
 
 st.set_page_config(
@@ -12,25 +12,11 @@ st.sidebar.image(logo, width=150)
 # Define tus páginas como funciones
 
 def main():
-    pagina = st.sidebar.selectbox("Selecciona la empresa correspondiente", ["Inicio","Administracion" ,"Serviplus", "Dapreca","Inv Ghalmaca","Mult Ghalmaca", "Galpego", "Ferregal","Global a21"])
+    pagina = st.sidebar.selectbox("Selecciona la empresa correspondiente", ["Inicio","Personal evaluado" ])
 
     if pagina == "Inicio":
         home()
-    elif pagina == "Serviplus":
-        Serviplus()
-    elif pagina == "Dapreca":
-        Dapreca()
-    elif pagina == "Inv Ghalmaca":
-        Inversiones()
-    elif pagina == "Mult Ghalmaca":
-        Transporte()
-    elif pagina == "Galpego":
-        Galpego()
-    elif pagina == "Ferregal":
-        Ferregal()
-    elif pagina == "Administracion":
+    elif pagina == "Personal evaluado":
         Admin()
-    else:
-        Global21()
 if __name__ == "__main__":
     main()

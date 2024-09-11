@@ -1,7 +1,11 @@
 import streamlit as st
 from PIL import Image
-from funciones import serviplus, dapreca, inversiones, transporte, galpego, ferregal, administracion
+from funciones import personalgrupo
 import pandas as pd
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from streamlit import secrets
 
 def centrar_titulos(titulo):
     st.markdown(f"<h1 style='text-align: center;'>{titulo}</h1>", unsafe_allow_html=True)
@@ -34,7 +38,7 @@ def home():
 # Texto a justificar
     texto = """
     En la barra lateral de la izquierda podrán encontrar las opciones a manipular para descargar 
-    las evaluaciones procesadas del personal por empresa y por mes, lo primero que deben hacer es seleccionar la
+    las evaluaciones procesadas del personal por mes, lo primero que deben hacer es seleccionar la
     empresa correspondiente a cada gerente y luego les aparecerá el mes donde desean obtener la evaluación, se le
     mostrará una tabla con vista preliminar antes de descargar para que puedan chequear la información, una vez
     chequeada presionan el botón descargar para proceder a bajar el excel con las evaluaciones correspondientes al mes seleccionado.
@@ -42,132 +46,72 @@ def home():
     # Usando HTML y CSS para justificar el texto
     col2.markdown(f"<h5 style='text-align: justify;'>{texto}</h5>", unsafe_allow_html=True)
 
-def Serviplus():
-    st.image(r'logos/SERVIPLUS.png',width=150)
-    centrar_titulos("GESTION DE EVALUACIONES MULTISERVICIOS SERVIPLUS")
-    centrar_titulos("")
-    st.write(" ")
-    st.write(" ")
-    st.write(" ")
-    mes, mes_letras= meses_del_año()
-    df = serviplus(mes)
-    st.dataframe(df,width=800)
-    with pd.ExcelWriter('evaluaciones.xlsx') as writer:
-        df.to_excel(writer, index=False)
-    with open('evaluaciones.xlsx', 'rb') as f:
-        bytes_data = f.read()
-    if df.empty == True:
-        st.sidebar.write("No hay informacion para descargar")
-    else:
-        st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones serviplus {mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_serv')
-def Dapreca():
-    st.image(r'logos/DAPRECA.png',width=150)
-    centrar_titulos("GESTION DE EVALUACIONES DAPRECA")
-    centrar_titulos("")
-    st.write(" ")
-    st.write(" ")
-    st.write(" ")
-    mes, mes_letras= meses_del_año()
-    df = dapreca(mes)
-    st.write(df)
-    with pd.ExcelWriter('evaluaciones.xlsx') as writer:
-        df.to_excel(writer, index=False)
-    with open('evaluaciones.xlsx', 'rb') as f:
-        bytes_data = f.read()
-    if df.empty == True:
-        st.sidebar.write("No hay informacion para descargar")
-    else:
-        st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones dapreca {mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_dapreca')
-def Inversiones():
-    st.image(r'logos/INVERSIONES GHALMACA.png',width=300)
-    centrar_titulos("GESTION DE EVALUACIONES INVERSIONES GHALMACA")
-    centrar_titulos("")
-    st.write(" ")
-    st.write(" ")
-    st.write(" ")
-    mes, mes_letras= meses_del_año()
-    df = inversiones(mes)
-    st.write(df)
-    with pd.ExcelWriter('evaluaciones.xlsx') as writer:
-        df.to_excel(writer, index=False)
-    with open('evaluaciones.xlsx', 'rb') as f:
-        bytes_data = f.read()
-    if df.empty == True:
-        st.sidebar.write("No hay informacion para descargar")
-    else:
-        st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones inversiones {mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_inv')
-def Transporte():
-    st.image(r'logos/GHALMACA TRANSPORTE.png',width=300)
-    centrar_titulos("GESTION DE EVALUACIONES INVERSIONES GHALMACA")
-    centrar_titulos("")
-    st.write(" ")
-    st.write(" ")
-    st.write(" ")
-    mes, mes_letras= meses_del_año()
-    df = transporte(mes)
-    st.write(df)
-    with pd.ExcelWriter('evaluaciones.xlsx') as writer:
-        df.to_excel(writer, index=False)
-    with open('evaluaciones.xlsx', 'rb') as f:
-        bytes_data = f.read()
-    if df.empty == True:
-        st.sidebar.write("No hay informacion para descargar")
-    else:
-        st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones multiservicios {mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_trans')
-def Galpego():
-    st.image(r'logos/GALPEGO.png',width=300)
-    centrar_titulos("GESTION DE EVALUACIONES GALPEGO")
-    centrar_titulos("")
-    st.write(" ")
-    st.write(" ")
-    st.write(" ")
-    mes, mes_letras= meses_del_año()
-    df = galpego(mes)
-    st.write(df)
-    with pd.ExcelWriter('evaluaciones.xlsx') as writer:
-        df.to_excel(writer, index=False)
-    with open('evaluaciones.xlsx', 'rb') as f:
-        bytes_data = f.read()
-    if df.empty == True:
-        st.sidebar.write("No hay informacion para descargar")
-    else:
-        st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones galpego {mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_GAL')
-def Ferregal():
-    st.image(r'logos/FERREGAL.png',width=300)
-    centrar_titulos("GESTION DE EVALUACIONES FERREGAL")
-    centrar_titulos("")
-    st.write(" ")
-    st.write(" ")
-    st.write(" ")
-    mes, mes_letras= meses_del_año()
-    df = ferregal(mes)
-    st.write(df)
-    with pd.ExcelWriter('evaluaciones.xlsx') as writer:
-        df.to_excel(writer, index=False)
-    with open('evaluaciones.xlsx', 'rb') as f:
-        bytes_data = f.read()
-    if df.empty == True:
-        st.sidebar.write("No hay informacion para descargar")
-    else:
-        st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones ferregal{mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_FER')
-
 def Admin():
-    centrar_titulos("GESTION DE EVALUACIONES CONTABILIDAD Y ADMINISTRACION")
+    centrar_titulos("GESTION DE EVALUACIONES PERSONAL GRUPO")
     centrar_titulos("")
     st.write(" ")
     st.write(" ")
     st.write(" ")
     mes, mes_letras= meses_del_año()
-    df = administracion(mes)
+    df = personalgrupo(mes)
     st.write(df)
     with pd.ExcelWriter('evaluaciones.xlsx') as writer:
         df.to_excel(writer, index=False)
     with open('evaluaciones.xlsx', 'rb') as f:
         bytes_data = f.read()
-    if df.empty == True:
+    if df.empty:
         st.sidebar.write("No hay informacion para descargar")
     else:
-        st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'evaluaciones administracion{mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_adm')
+        st.sidebar.download_button(label="Descargar evaluaciones", data=bytes_data, file_name=f'Evaluaciones personal mes {mes_letras}.xlsx', mime='application/vnd.ms-excel', key='descargar_excel_adm')
+        # Botón para enviar correos electrónicos
+    if st.button("Enviar correos electrónicos"):
+        enviaremail(df,mes_letras)  # Llama a la función para enviar correos
 
-def Global21():
-    st.warning("En Mantenimiento")
+def enviaremail(df, mes):
+    for index, row in df.iterrows():
+        nombre = row['PERSONAL']
+        correo = row['CORREO']
+        cumplimiento_horario = row['cumplimiento_horario']
+        discrecion_politicas = row['discrecion_politicas']
+        clima_organizacional = row['clima_organizacional']
+        cumplimiento_actividades = row['cumplimiento_actividades']
+        resultado_final = row['Resultado final']
+        supervisor = row['SUPERVISOR INMEDIATO']
+
+        # Crear el mensaje de correo
+        mensaje = MIMEMultipart()
+        mensaje['From'] = 'gustavoserviplus@gmail.com'
+        mensaje['To'] = correo
+        mensaje['Subject'] = f'Evaluación del Mes de {mes} para {nombre}'
+
+        # Formato del cuerpo del correo en HTML
+        cuerpo_html = f"""
+        <html>
+            <body>
+                <p>Hola <strong>{nombre}</strong>,</p>
+                <p>Aquí está tu evaluación de desempeñp del mes de {mes}:</p>
+                <ul>
+                    <li><strong>Cumplimiento de Horario:</strong> {cumplimiento_horario}</li>
+                    <li><strong>Discreción Políticas Internas:</strong> {discrecion_politicas}</li>
+                    <li><strong>Clima Organizacional:</strong> {clima_organizacional}</li>
+                    <li><strong>Cumplimiento de Actividades:</strong> {cumplimiento_actividades}</li>
+                </ul>
+                <p><strong>Resultado Final:</strong> {resultado_final}</p>
+                <p>Si tienes alguna duda o comentario, no dudes en comunicarte con tu supervisor inmediato quien es el encargado de evaluar tu desempeño: <strong>{supervisor}</strong>.</p>
+                <p>Saludos,<br>
+                Gustavo Boada Coord de Tecnología</p>
+            </body>
+        </html>
+        """
+        # Adjuntar el cuerpo HTML al mensaje
+        mensaje.attach(MIMEText(cuerpo_html, 'html'))
+        # Enviar el correo
+        try:
+            with smtplib.SMTP('smtp.gmail.com', 587) as servidor:  # Reemplaza con tu servidor SMTP
+                servidor.starttls()
+                servidor.login('gustavoserviplus@gmail.com', secrets['CONTRA'])  # Reemplaza con tu correo y contraseña
+                servidor.sendmail('gustavoserviplus@gmail.com', correo, mensaje.as_string())    
+        except Exception as e:
+            st.error(f'Error al enviar correo a {nombre} ({correo}): {e}')
+    
+    st.success(f'Correos del mes de {mes} enviados masivamente con éxito.')

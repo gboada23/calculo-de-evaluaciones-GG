@@ -1,154 +1,51 @@
 from creds import credenciales
 import pandas as pd
 gc = credenciales()
-def gsheet():
-    ID = "1VAzhIBSoWo6KoeZmQJoydNw16ucNusU44rdqhgnxFqs"
-    return ID
-ID = gsheet()
-def serviplus(mes):
-    pd.set_option('display.max_colwidth', None)
-    tabla = gc.open_by_key(ID).worksheet('EVA SERVIPLUS').get_all_records()
-    BD = gc.open_by_key(ID).worksheet('SERVIPLUS').get_all_records()
-    df = pd.DataFrame(tabla)
-    df2 = pd.DataFrame(BD)
-    df["FECHA"] = pd.to_datetime(df["FECHA"], format = "%d/%m/%Y")
-    df["MES"] = df['FECHA'].dt.month
-    df = df[df['MES'] == mes].copy()
-    numericas = ['CUMPLIENTO DE HORARIO','DISCRECION POLITICAS INTERNAS', 'CLIMA ORGANIZACIONAL','CUMPLIMIENTO DE ACTIVIDADES ']
-    df = df.groupby("PERSONAL").mean(numeric_only=True)[numericas].reset_index()
-    for columna in numericas:
-        df[columna] = round(df[columna]/4,2)
-    df["DESEMPEÑO DEL MES"] = df['CUMPLIENTO DE HORARIO']*0.15 + df['DISCRECION POLITICAS INTERNAS']*0.25+ df['CLIMA ORGANIZACIONAL']*0.25 +df['CUMPLIMIENTO DE ACTIVIDADES ']*0.35
-    df["DESEMPEÑO DEL MES"] = round(df["DESEMPEÑO DEL MES"],2)
-    df.drop(columns = numericas, inplace = True)
-    df2 = df2.copy()
-    df2 = df2[['NOMBRE', 'CEDULA','CARGO']]
-    new_df = pd.merge(df, df2, left_on = 'PERSONAL',right_on='NOMBRE', how= 'left')
-    new_df = new_df[['PERSONAL',  'CEDULA',  'CARGO','DESEMPEÑO DEL MES']]
-    new_df['DESEMPEÑO DEL MES'] = new_df['DESEMPEÑO DEL MES'].apply(lambda x: f'{x * 100}'.replace('.', ',') + '%')
-    return new_df
+def personalgrupo(mes):
+    # Abrimos la hoja de Google y cargamos los datos
+    grupo = gc.open('GRUPO DE EMPRESAS NUEVA').worksheet('EVALUACIONES')
+    datos = grupo.get_all_records()
+    datos = pd.DataFrame(datos)
 
-def ferregal(mes):
-    pd.set_option('display.max_colwidth', None)
-    tabla = gc.open_by_key(ID).worksheet('EVA FERREGAL').get_all_records()
-    BD = gc.open_by_key(ID).worksheet('FERREGAL').get_all_records()
-    df = pd.DataFrame(tabla)
-    df2 = pd.DataFrame(BD)
-    df["FECHA"] = pd.to_datetime(df["FECHA"], format = "%d/%m/%Y")
-    df["MES"] = df['FECHA'].dt.month
-    df = df[df['MES'] == mes].copy()
-    numericas = ['CUMPLIENTO DE HORARIO','DISCRECION POLITICAS INTERNAS', 'CLIMA ORGANIZACIONAL','CUMPLIMIENTO DE ACTIVIDADES']
-    df = df.groupby("PERSONAL").mean(numeric_only=True)[numericas].reset_index()
-    for columna in numericas:
-        df[columna] = round(df[columna]/4,2)
-    df["DESEMPEÑO DEL MES"] = df['CUMPLIENTO DE HORARIO']*0.25 + df['DISCRECION POLITICAS INTERNAS']*0.25+ df['CLIMA ORGANIZACIONAL']*0.25 +df['CUMPLIMIENTO DE ACTIVIDADES']*0.25
-    df["DESEMPEÑO DEL MES"] = round(df["DESEMPEÑO DEL MES"],2)
-    df.drop(columns = numericas, inplace = True)
-    df2 = df2.copy()
-    df2 = df2[['NOMBRE', 'CEDULA','CARGO']]
-    new_df = pd.merge(df, df2, left_on = 'PERSONAL',right_on='NOMBRE', how= 'left')
-    new_df = new_df[['PERSONAL',  'CEDULA',  'CARGO','DESEMPEÑO DEL MES']]
-    new_df['DESEMPEÑO DEL MES'] = new_df['DESEMPEÑO DEL MES'].apply(lambda x: f'{x * 100}'.replace('.', ',') + '%')
-    return new_df
-def dapreca(mes):
-    tabla = gc.open_by_key(ID).worksheet('EVA DAPRECA').get_all_records()
-    BD = gc.open_by_key(ID).worksheet('DAPRECA').get_all_records()
-    df = pd.DataFrame(tabla).copy()
-    df2 = pd.DataFrame(BD).copy()
-    df["FECHA"] = pd.to_datetime(df["FECHA"], format = "%d/%m/%Y")
-    df["MES"] = df['FECHA'].dt.month
-    df = df[df['MES'] == mes]
-    numericas = ['CUMPLIENTO DE HORARIO','DISCRECION POLITICAS INTERNAS','CUMPLIMIENTO DE ACTIVIDADES ']
-    df = df.groupby("PERSONAL").mean(numeric_only=True)[numericas].reset_index()
-    for columna in numericas:
-        df[columna] = round(df[columna]/4,2)
-    df["DESEMPEÑO DEL MES"] = round((df['CUMPLIENTO DE HORARIO'] + df['DISCRECION POLITICAS INTERNAS'] +df['CUMPLIMIENTO DE ACTIVIDADES '])/3,2)
-    df.drop(columns = numericas, inplace = True)
-    df2 = df2
-    df2 = df2[['NOMBRE', 'CEDULA','CARGO']]
-    new_df = pd.merge(df, df2, left_on = 'PERSONAL',right_on='NOMBRE', how= 'left')
-    new_df = new_df[['PERSONAL',  'CEDULA',  'CARGO','DESEMPEÑO DEL MES']]
-    new_df['DESEMPEÑO DEL MES'] = new_df['DESEMPEÑO DEL MES'].apply(lambda x: f'{x * 100}'.replace('.', ',') + '%')
-    return new_df
+    # Formateamos la fecha y extraemos el mes
+    datos['FECHA'] = pd.to_datetime(datos['FECHA'], format='%d/%m/%Y')
+    datos['MES'] = datos['FECHA'].dt.month
 
-def inversiones(mes):
-    tabla = gc.open_by_key(ID).worksheet('EVA INV GHALMACA').get_all_records()
-    BD = gc.open_by_key(ID).worksheet('INV GHALMACA').get_all_records()
-    df = pd.DataFrame(tabla).copy()
-    df2 = pd.DataFrame(BD).copy()
-    df["FECHA"] = pd.to_datetime(df["FECHA"], format = "%d/%m/%Y")
-    df["MES"] = df['FECHA'].dt.month
-    df = df[df['MES'] == mes]
-    numericas = ['CUMPLIENTO DE HORARIO','DISCRECION POLITICAS INTERNAS','CUMPLIMIENTO DE ACTIVIDADES ','PRESENCIALIDAD EN SU PUESTO']
-    df = df.groupby("PERSONAL").mean(numeric_only=True)[numericas].reset_index()
-    for columna in numericas:
-        df[columna] = round(df[columna]/4,2)
-    df["DESEMPEÑO DEL MES"] = round((df['CUMPLIENTO DE HORARIO'] + df['DISCRECION POLITICAS INTERNAS'] +df['CUMPLIMIENTO DE ACTIVIDADES ']+ df['PRESENCIALIDAD EN SU PUESTO'])/4,2)
-    df.drop(columns = numericas, inplace = True)
-    df2 = df2
-    df2 = df2[['NOMBRE', 'CEDULA','CARGO']]
-    new_df = pd.merge(df, df2, left_on = 'PERSONAL',right_on='NOMBRE', how= 'left')
-    new_df = new_df[['PERSONAL',  'CEDULA',  'CARGO','DESEMPEÑO DEL MES']]
-    new_df['DESEMPEÑO DEL MES'] = new_df['DESEMPEÑO DEL MES'].apply(lambda x: f'{x * 100}'.replace('.', ',') + '%')
-    return new_df
+    # Filtramos los datos para el mes solicitado
+    mes = datos[datos['MES'] == mes].copy()
 
-def transporte(mes):
-    tabla = gc.open_by_key(ID).worksheet('EVA MULT GHALMACA').get_all_records()
-    BD = gc.open_by_key(ID).worksheet('MULT GHALMACA').get_all_records()
-    df = pd.DataFrame(tabla).copy()
-    df2 = pd.DataFrame(BD).copy()
-    df["FECHA"] = pd.to_datetime(df["FECHA"], format = "%d/%m/%Y")
-    df["MES"] = df['FECHA'].dt.month
-    df = df[df['MES'] == mes]
-    numericas = ['TRABAJO EN EQUIPO','DESENVOLVIMIENTO EN EL AREA DE TRABAJO','CUMPLIMIENTO DEL DESPACHO','CUMPLIMIENTO DE HORARIO','PRESENCIA EN SU PUESTO DE TRABAJO']
-    df = df.groupby("PERSONAL").mean(numeric_only=True)[numericas].reset_index()
-    for columna in numericas:
-        df[columna] = round(df[columna]/4,2)
-    df["DESEMPEÑO DEL MES"] = round((df['TRABAJO EN EQUIPO'] + df['DESENVOLVIMIENTO EN EL AREA DE TRABAJO'] + df['CUMPLIMIENTO DEL DESPACHO'] + df['CUMPLIMIENTO DE HORARIO']+ df['PRESENCIA EN SU PUESTO DE TRABAJO'])/5,2)
-    df.drop(columns = numericas, inplace = True)
-    df2 = df2[['NOMBRE', 'CEDULA','CARGO']]
-    new_df = pd.merge(df, df2, left_on = 'PERSONAL',right_on='NOMBRE', how= 'left')
-    new_df = new_df[['PERSONAL',  'CEDULA',  'CARGO','DESEMPEÑO DEL MES']]
-    new_df['DESEMPEÑO DEL MES'] = new_df['DESEMPEÑO DEL MES'].apply(lambda x: f'{x * 100}'.replace('.', ',') + '%')
-    return new_df
+    # Calculamos los porcentajes de cada columna de evaluación
+    mes['cumplimiento_horario'] = mes["CUMPLIENTO DE HORARIO"] / 4
+    mes['discrecion_politicas'] = mes["DISCRECION POLITICAS INTERNAS"] / 4
+    mes['clima_organizacional'] = mes["CLIMA ORGANIZACIONAL"] / 4
+    mes['cumplimiento_actividades'] = mes["CUMPLIMIENTO DE ACTIVIDADES "] / 4
 
-def galpego(mes):
-    tabla = gc.open_by_key(ID).worksheet('EVA GALPEGO').get_all_records()
-    BD = gc.open_by_key(ID).worksheet('GALPEGO').get_all_records()
-    df = pd.DataFrame(tabla).copy()
-    df2 = pd.DataFrame(BD).copy()
-    df["FECHA"] = pd.to_datetime(df["FECHA"], format = "%d/%m/%Y")
-    df["MES"] = df['FECHA'].dt.month
-    df = df[df['MES'] == mes]
-    numericas = ['ORDEN Y LIMPIEZA','PUNTUALIDAD','TRABAJO EN EQUIPO','CONOCIMIENTO E INICIATIVA']
-    df = df.groupby("PERSONAL").mean(numeric_only=True)[numericas].reset_index()
-    for columna in numericas:
-        df[columna] = round(df[columna]/4,2)
-    df["DESEMPEÑO DEL MES"] = round((df['ORDEN Y LIMPIEZA'] + df['PUNTUALIDAD'] +df['TRABAJO EN EQUIPO']+df['CONOCIMIENTO E INICIATIVA'])/4,2)
-    df.drop(columns = numericas, inplace = True)
-    df2 = df2[['NOMBRE', 'CEDULA','CARGO']]
-    new_df = pd.merge(df, df2, left_on = 'PERSONAL',right_on='NOMBRE', how= 'left')
-    new_df = new_df[['PERSONAL',  'CEDULA',  'CARGO','DESEMPEÑO DEL MES']]
-    new_df['DESEMPEÑO DEL MES'] = new_df['DESEMPEÑO DEL MES'].apply(lambda x: f'{x * 100}'.replace('.', ',') + '%')
-    return new_df
+    # Calculamos el resultado promedio global usando los valores normalizados
+    mes['Resultado final'] = (mes['cumplimiento_horario'] + 
+                        mes['discrecion_politicas'] + 
+                        mes['clima_organizacional'] + 
+                        mes['cumplimiento_actividades']) / 4
 
-def administracion(mes):
-    tabla = gc.open_by_key(ID).worksheet('EVA ADMIN').get_all_records()
-    BD = gc.open_by_key(ID).worksheet('ADMIN').get_all_records()
-    df = pd.DataFrame(tabla).copy()
-    df2 = pd.DataFrame(BD).copy()
-    df["FECHA"] = pd.to_datetime(df["FECHA"], format = "%d/%m/%Y")
-    df["MES"] = df['FECHA'].dt.month
-    df = df[df['MES'] == mes]
-    numericas = ['CUMPLIENTO DE HORARIO','TRABAJO EN EQUIPO','CLIMA ORGANIZACIONAL','CUMPLIMIENTO DE ACTIVIDADES ']
-    df = df.groupby("PERSONAL").mean(numeric_only=True)[numericas].reset_index()
-    for columna in numericas:
-        df[columna] = round(df[columna]/4,2)
-    df["DESEMPEÑO DEL MES"] = round((df['CUMPLIENTO DE HORARIO'] + df['TRABAJO EN EQUIPO'] +df['CLIMA ORGANIZACIONAL']+df['CUMPLIMIENTO DE ACTIVIDADES '])/4,2)
-    df.drop(columns = numericas, inplace = True)
-    df2 = df2[['NOMBRE', 'CEDULA','CARGO']]
-    new_df = pd.merge(df, df2, left_on = 'PERSONAL',right_on='NOMBRE', how= 'left')
-    new_df = new_df[['PERSONAL',  'CEDULA',  'CARGO','DESEMPEÑO DEL MES']]
-    new_df['DESEMPEÑO DEL MES'] = new_df['DESEMPEÑO DEL MES'].apply(lambda x: f'{x * 100}'.replace('.', ',') + '%')
-    return new_df
+    # Agrupamos los resultados por el personal y calculamos el promedio
+    mes = mes.groupby('PERSONAL')[["PERSONAL", 
+                                   "cumplimiento_horario", 
+                                   "discrecion_politicas", 
+                                   "clima_organizacional", 
+                                   "cumplimiento_actividades", 
+                                   "Resultado final"]].mean(numeric_only=True).reset_index()
 
+    # Cargamos la lista del personal
+    personal = gc.open('GRUPO DE EMPRESAS NUEVA').worksheet('LISTADO DEL PERSONAL')
+    personal = personal.get_all_records()
+    personal = pd.DataFrame(personal)
+    personal = personal[['NOMBRES Y APELLIDOS','CEDULA','CARGO','CORREO','SUPERVISOR INMEDIATO']]
+    personal = personal.rename(columns={'NOMBRES Y APELLIDOS':'PERSONAL'})
+
+    # Realizamos el merge con los resultados del personal
+    merge = pd.merge(personal, mes, on="PERSONAL", how="inner")
+    merge = merge.sort_values(by='PERSONAL', ascending=True)
+    merge = merge.round(2)
+    columnas=['cumplimiento_horario', 'discrecion_politicas', 'clima_organizacional', 'cumplimiento_actividades','Resultado final']
+    for columna in columnas:
+      merge[columna] = merge[columna].apply(lambda x: f'{x * 100}'.replace('.', ',') + '%')
+    return merge
