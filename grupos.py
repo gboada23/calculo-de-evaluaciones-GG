@@ -85,26 +85,39 @@ def enviaremail(df, mes):
         mensaje['Subject'] = f'Evaluación del Mes de {mes} para {nombre}'
 
         # Formato del cuerpo del correo en HTML
+        # Formato del cuerpo del correo en HTML
         cuerpo_html = f"""
             <html>
+                <head>
+                    <style>
+                        body {{ font-family: Arial, sans-serif; }}
+                        .header, .footer {{ background-color: #e7f1ff; padding: 20px; text-align: center; }}
+                        .content {{ padding: 20px; }}
+                        img {{ max-width: 100%; height: auto; }}
+                    </style>
+                </head>
                 <body>
-                    <p>Hola <strong>{nombre}</strong>,</p>
-                    <p>Aquí está tu evaluación de desempeño del mes de {mes}:</p>
-                    <ul>
-                        <li><strong>Cumplimiento de Horario:</strong> {cumplimiento_horario}</li>
-                        <li><strong>Discreción en Políticas Internas:</strong> {discrecion_politicas}</li>
-                        <li><strong>Clima Organizacional:</strong> {clima_organizacional}</li>
-                        <li><strong>Cumplimiento de Actividades:</strong> {cumplimiento_actividades}</li>
-                    </ul>
-                    <p><strong>Resultado Final:</strong> {resultado_final}</p>
-                    <p><strong>NOTA:</strong> No responda a este correo electrónico, es un correo automatizado.</p>
-                    <p>Si tienes alguna duda o comentario, no dudes en comunicarte con tu supervisor inmediato, <strong>{supervisor}</strong>, quien es el encargado de evaluar tu desempeño.</p>
-                    <p>Saludos,<br>
-                    Atentamente, <strong>Gustavo Boada Coordinador de Tecnología</strong></p>
+                    <div class="header">
+                        <img src="logos/Admin-contab.jpg" alt="Logo">
+                    </div>
+                    <div class="content">
+                        <p>Hola <strong>{nombre}</strong>,</p>
+                        <p>Aquí está tu evaluación de desempeño del mes de {mes}:</p>
+                        <ul>
+                            <li><strong>Cumplimiento de Horario:</strong> {cumplimiento_horario}</li>
+                            <li><strong>Discreción en Políticas Internas:</strong> {discrecion_politicas}</li>
+                            <li><strong>Clima Organizacional:</strong> {clima_organizacional}</li>
+                            <li><strong>Cumplimiento de Actividades:</strong> {cumplimiento_actividades}</li>
+                        </ul>
+                        <p><strong>Resultado Final:</strong> {resultado_final}</p>
+                        <p><strong>NOTA:</strong> No responda a este correo electrónico, es un correo automatizado.</p>
+                        <p>Si tienes alguna duda o comentario, no dudes en comunicarte con tu supervisor inmediato, <strong>{supervisor}</strong>, quien es el encargado de evaluar tu desempeño.</p>
+                        <p>Saludos,<br>
+                        Atentamente, <strong>Gustavo Boada Coordinador de Tecnología</strong></p>
+                    </div>
                 </body>
             </html>
             """
-
         # Adjuntar el cuerpo HTML al mensaje
         mensaje.attach(MIMEText(cuerpo_html, 'html'))
             # Enviar el correo
