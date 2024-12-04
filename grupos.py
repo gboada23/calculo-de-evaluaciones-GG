@@ -85,38 +85,29 @@ def enviaremail(df, mes):
         mensaje['Subject'] = f'Evaluación del Mes de {mes} para {nombre}'
 
         # Formato del cuerpo del correo en HTML
-        # Formato del cuerpo del correo en HTML
         cuerpo_html = f"""
             <html>
-                <head>
-                    <style>
-                        body {{ font-family: Arial, sans-serif; }}
-                        .header, .footer {{ background-color: #e7f1ff; padding: 20px; text-align: center; }}
-                        .content {{ padding: 20px; }}
-                        img {{ max-width: 100%; height: auto; }}
-                    </style>
-                </head>
                 <body>
-                    <div class="header">
-                        <img src="logos/Admin-contab.jpg" alt="Logo">
+                    <div style='background: #efefef; margin: 10px auto; padding: 30px; text-align: center; width: 500px; box-sizing: border-box;'>
+                        <img src='https://ghalmaca.com/wp-content/uploads/Admin-contab.jpg' style='width: 150px'>
                     </div>
-                    <div class="content">
-                        <p>Hola <strong>{nombre}</strong>,</p>
-                        <p>Aquí está tu evaluación de desempeño del mes de {mes}:</p>
-                        <ul>
-                            <li><strong>Cumplimiento de Horario:</strong> {cumplimiento_horario}</li>
-                            <li><strong>Discreción en Políticas Internas:</strong> {discrecion_politicas}</li>
-                            <li><strong>Clima Organizacional:</strong> {clima_organizacional}</li>
-                            <li><strong>Cumplimiento de Actividades:</strong> {cumplimiento_actividades}</li>
-                        </ul>
-                        <p><strong>Resultado Final:</strong> {resultado_final}</p>
-                        <p><strong>NOTA:</strong> No responda a este correo electrónico, es un correo automatizado.</p>
-                        <p>Si tienes alguna duda o comentario, no dudes en comunicarte con tu supervisor inmediato, <strong>{supervisor}</strong>, quien es el encargado de evaluar tu desempeño.</p>
-                        <p>Saludos,<br>
-                        Atentamente, <strong>Gustavo Boada Coordinador de Tecnología</strong></p>
+                    <div style='width: 500px; margin: 0 auto; background-color: #FFF;'>
+                        <h1 style='text-align: center;'>Hola, {nombre}</h1>
+                        <h4>Aqui podras visualizar tú evaluación de desempeño del mes de {mes}:</h4>
+                        <p><strong>Cumplimiento de Horario:</strong> {cumplimiento_horario}</p>
+                        <p><strong>Discreción en Políticas Internas:</strong> {discrecion_politicas}</p>
+                        <p><strong>Clima Organizacional:</strong> {clima_organizacional}</p>
+                        <p><strong>Cumplimiento de Actividades:</strong> {cumplimiento_actividades}</p>
+                        <h3 style='text-align: center;'>Resultado Final: {resultado_final}</h3>
+                    </div>
+                    <div style='width: 500px; background: #efefef; padding: 15px 30px; text-align: justify; margin: 10px auto; box-sizing: border-box;'>
+                        <p style='margin: 0;'>Si tienes alguna duda o comentario, no dudes en comunicarte con tu supervisor inmediato
+                            <strong>{supervisor}</strong>, quien es el encargado de evaluar tu desempeño.</p><br>
+                        <p style='text-align: center; margin: 0;'>Saludos Atentamente,<br> <strong>Gustavo Boada <br>Coordinador de Tecnología</strong></p>
                     </div>
                 </body>
             </html>
+
             """
         # Adjuntar el cuerpo HTML al mensaje
         mensaje.attach(MIMEText(cuerpo_html, 'html'))
